@@ -1,36 +1,31 @@
 # dev-machine-bootstrapper
 helping setting up new dev environments one shell at a time
 
-## Installing common apps
+## First Things First
 
-```shell script
-sudo apt-get install chromium-browser
-# todo some automation around signing in to chrome would be cool
+### OSX specific
+```shell
+xcode-select --install
+# install homebrew, see brew.sh
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
 
-sudo apt-get install gnome-shell-extensions
-sudo apt-get install gnome-tweak-tool
-
-# todo track down commands to install the extensions:
-#   caffeine
-
-# sudo apt install chrome-gnome-shell this didn't work out right
-
-sudo apt-get install jq gettext bash-completion curl wget docker docker-compose
-``` 
 
 ### ZSH
 
 set as default shell
 ```shell script
-sudo apt-get install zsh
+# os specific 
+sudo apt-get install zsh || sudo dnf install zsh || sudo brew install zsh
 chsh -s /bin/zsh
 ```
+logout to take effect.
 
 oh my zsh!
 ```shell script
-$ sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
-Will want to take plugins, theme from the zsh example in this repo
+Modify ~/.zshrc
 ```shell script
 plugins=(git history sudo dotenv nvm sdk mvn)
 ZSH_THEME="tonotdo"
@@ -52,6 +47,19 @@ rm jetbrains-toolbox.tar.gz
 #  maybe possible to download idea directly and then hook it into jetbrains toolbox after the fact
 ```
 
+## Python
+```shell
+# pyenv pre-requs, see https://github.com/pyenv/pyenv/wiki#suggested-build-environment
+
+#brew install openssl readline sqlite3 xz zlib
+#sudo apt-get update; sudo apt-get install make build-essential libssl-dev zlib1g-dev \
+#  libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm \
+#  libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+dnf install make gcc zlib-devel bzip2 bzip2-devel readline-devel sqlite sqlite-devel openssl-devel tk-devel libffi-devel xz-devel
+
+curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+```
+
 ## Java
 sdkman
 ```shell script
@@ -62,18 +70,6 @@ sdk install maven
 sdk install micronaut 2.0.0
 ```
 
-alterantive java version manager:
-jabba
-```shell script
-sudo apt install curl
-curl -sL https://github.com/shyiko/jabba/raw/master/install.sh | bash && . ~/.jabba/jabba.sh
-jabba list
-jabba ls
-jabba --help
-jabba ls-remote
-jabba install openjdk@1.11.0
-sudo update-alternatives --install /usr/bin/java java ${JAVA_HOME%*/}/bin/java 20000
-```
 
 # NPM
 install nvm
