@@ -1,0 +1,32 @@
+
+- hosts: localhost
+  connection: local
+  tasks:
+  - name: Install common tools
+    become: true
+    apt:
+      pkg:
+      - htop
+      - vim
+      - curl
+      - wget
+      - jq
+      - gettext
+      - zsh
+      # for jetbrains
+      - fuse3
+      - libfuse3-3
+
+  # todo setup zsh
+  # todo setup jetbrains
+
+  - name: Clone tfenv
+    git:
+      repo: https://github.com/tfutils/tfenv.git
+      dest: ~/.tfenv
+  - name: local path for tfenv
+    shell: mkdir -p ~/.local/bin/
+  - name: symlink local tfenv bin path
+    shell: ln -sfn ~/.tfenv/bin/* ~/.local/bin
+  - name: install latest terraform
+    shell: tfenv install latest

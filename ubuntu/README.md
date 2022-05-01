@@ -3,6 +3,8 @@
 ## Common apps
 ```shell script
 
+sudo apt install -y ansible
+
 sudo apt install -y \
  gnome-shell-extensions gnome-tweaks \
  htop vim \
@@ -10,10 +12,6 @@ sudo apt install -y \
  awscli
 
 sudo apt-get install -y jq gettext bash-completion curl wget docker docker-compose
-``` 
-
-```shell
-
 ```
 
 ## Podman
@@ -27,6 +25,7 @@ https://github.com/containers/podman/blob/main/docs/tutorials/rootless_tutorial.
 
 setup on 22.04 is pretty easy and not too for simple examples attempted:
 ```shell
+sudo apt remove -y docker
 sudo apt install -y podman podman-toolbox podman-docker docker-compose
 ```
 for backwards compatibility search for unqualified images somewhere (legacy behavior was default to search in docker.io)

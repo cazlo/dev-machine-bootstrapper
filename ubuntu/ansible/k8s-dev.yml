@@ -1,0 +1,40 @@
+- hosts: localhost
+  connection: local
+  tasks:
+  # kubectl
+  - name: Install dependencies
+    apt:
+      pkg:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+    become: true
+  - name: Download Google Cloud signing key
+    get_url:
+      url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+      dest: /usr/share/keyrings/kubernetes-archive-keyring.gpg
+    become: true
+  - name: Add kubernetes repo apt key
+    ansible.builtin.shell: echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+    become: true
+  - name: Install kubectl
+    apt:
+      name: kubectl
+      update_cache: yes
+    become: true
+  - name: Download latest minikube package
+    get_url:
+      # alternatively get the latest from here: https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
+      url: https://github.com/kubernetes/minikube/releases/download/v1.25.2/minikube_1.25.2-0_amd64.deb
+      dest: /tmp/minikube_latest_amd64.deb
+  - name: Add kubernetes repo apt key
+    ansible.builtin.shell: dpkg -i /tmp/minikube_latest_amd64.deb
+    become: true
+  - name: Cleanup downloaded minikube package
+    file:
+      path: /tmp/minikube_latest_amd64.deb
+      state: absent
+  # helm
+  - name: Install helm
+    # todo version lock
+    ansible.builtin.shell: curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
