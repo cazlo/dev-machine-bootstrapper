@@ -56,6 +56,7 @@ rm jetbrains-toolbox.tar.gz
 ```shell
 NOW=`date +%Y-%m-%d`
 ssh-keygen -f $HOME/.ssh/$NOW-github
+ssh-add -f $HOME/.ssh/$NOW-github
 cat $HOME/.ssh/$NOW-github.pub
 # upload this pub key onto github profile
 
