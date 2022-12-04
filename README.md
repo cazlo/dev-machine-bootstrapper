@@ -1,5 +1,5 @@
 # dev-machine-bootstrapper
-helping setting up new dev environments one shell at a time
+setting up new dev environments one shell at a time
 
 ## First Things First
 
@@ -26,14 +26,9 @@ sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.
 ```
 Modify ~/.zshrc
 ```shell script
-plugins=(git history sudo dotenv nvm sdk mvn)
-ZSH_THEME="tonotdo"
-source ~/.zprofile
-cat <<EOT >> ~/.zprofile
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init --path)"
-EOT
+plugins=(git history sudo dotenv nvm sdk mvn pyenv)
+ZSH_THEME="fino-time"
+source ~/.zshrc
 ```
 
 ## Jetbrains product setup
@@ -95,23 +90,39 @@ sudo apt-get update; sudo apt-get install -y make build-essential libssl-dev zli
 #dnf install make gcc zlib-devel bzip2 bzip2-devel readline-devel sqlite sqlite-devel openssl-devel tk-devel libffi-devel xz-devel
 
 curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+
+cat <<EOT >> ~/.zprofile
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init --path)"
+EOT
+
+cat <<EOT >> ~/.profile
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init --path)"
+EOT
+
+source ~/.zprofile
+
+pyenv install 3.11
+pyenv global 3.11
 ```
 
 ## Java
 sdkman
 ```shell script
 curl -s https://get.sdkman.io | bash
-sdk install java 18-open
-sdk install groovy
-sdk install maven
+sdk install java 17-open && \
+sdk install groovy && \
+sdk install maven && \
 sdk install quarkus
 ```
-
 
 # NPM
 install nvm
 ```shell script
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
 ```
 install latest node
 ```shell script
